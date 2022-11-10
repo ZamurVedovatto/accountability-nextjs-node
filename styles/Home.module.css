@@ -9,51 +9,59 @@
 }
 
 .dashboardMain {
-  height: 100%;
   width: 100%;
   display: grid;
-  /* grid-template-columns: 1fr 1fr 1fr; */
-  /* gap: 1rem;  */
+  grid-gap: 1rem;
   grid-template-areas:
 		"panel projection strategies"
 		"investment investment investment"
 		"toolbar toolbar toolbar"
   ;
+  padding: 1rem;
 }
 
 .panelMain {
-  border: 1px solid lightslategray;
+  border: 1px solid #77889963;
   border-radius: 3px;
   background-color: #d3d3d321;
   grid-area: panel;
 }
 .projectionMain {
-  border: 1px solid lightslategray;
+  border: 1px solid #77889963;
   border-radius: 3px;
-  background-color: #d3d3d321;
+  background-color: bisque;
   grid-area: projection;
   padding: 1rem;
 }
 .strategiesMain {
-  border: 1px solid lightslategray;
+  border: 1px solid #77889963;
   border-radius: 3px;
-  background-color: #d3d3d321;
+  background-color: #323539;
   grid-area: strategies;
   padding: 1rem;
 }
 .investmentMain {
-  border: 1px solid lightslategray;
+  border: 1px solid #77889963;
   border-radius: 3px;
-  background-color: #d3d3d321;
+  background-color: floralwhite;
   grid-area: investment;
   padding: 1rem;
 }
 
 .toolbarMain {
-  border: 1px solid lightslategray;
+  border: 1px solid #77889963;
   border-radius: 3px;
-  background-color: #d3d3d321;
+  background-color: #010101;
   grid-area: toolbar;
+  padding: .5rem;
+}
+
+.breadcrumb-item.active {
+  color: beige;
+}
+
+.breadcrumb-item a {
+  color: white;
 }
 
 
@@ -67,7 +75,7 @@ all Main classes has an grid-area style
 */
 
 /* .mainArea  {
-  border: 1px solid lightslategray;
+  border: 1px solid #77889963;
   border-radius: 3px;
   background-color: #d3d3d321;
 } */

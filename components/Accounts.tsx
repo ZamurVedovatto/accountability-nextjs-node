@@ -58,6 +58,29 @@ const Accounts = () => {
         <span>R$193,01</span>
         <span>33,79%</span>
       </div>
+
+      <div className="account-card mt-2">
+        <span></span>
+        <span>R$52.844,16</span>
+        <span>R$393,01</span>
+        <span>0,79%</span>
+      </div>
+
+      <div className="card mt-4">
+        <div className="account-card">
+          <span>fixed income</span>
+          <span>R$16.844,16</span>
+          <span>$3.090,01</span>
+          <span>33,79%</span>
+        </div>
+        <div className="account-card">
+          <span>variable income</span>
+          <span>R$36.844,16</span>
+          <span>$7.090,01</span>
+          <span>63,79%</span>
+        </div>
+
+      </div>
     </AccountsWrapper>
   )
 }
