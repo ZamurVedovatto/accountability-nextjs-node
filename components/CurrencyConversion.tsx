@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Axios from 'axios';
+import Axios from 'axios'
 import styled from 'styled-components'
 import CurrencyCard from './CurrencyCard'
 
@@ -12,14 +12,14 @@ const CurrencyConversionWrapper = styled.div`
   .currency-card {
     display: flex;
     flex: 1;
-    padding: .25rem;
+    padding: 0.25rem;
     border: 1px solid lightgrey;
     width: 100%;
     align-items: center;
     justify-content: space-around;
     span {
       color: #80808075;
-      font-size: .75rem;
+      font-size: 0.75rem;
     }
     p {
       font-weight: bold;
@@ -32,15 +32,15 @@ const CurrencyConversionWrapper = styled.div`
 const curFakeData = [
   {
     key: 'dolar',
-    val: '5.15'
+    val: '5.15',
   },
   {
     key: 'euro',
-    val: '5.12'
+    val: '5.12',
   },
   {
     key: 'cdi',
-    val: '13.75'
+    val: '13.75',
   },
 ]
 
@@ -48,7 +48,7 @@ const CurrencyConversion = () => {
   const [dolarToReal, setDolarToReal] = useState(5.15)
   const [euroToReal, setEuroToReal] = useState(5.11)
   const [CDI, setCDI] = useState(13.75)
-  const [currenciesData, setCurrenciesData] = (curFakeData)
+  const [currenciesData, setCurrenciesData] = curFakeData
 
   return (
     <CurrencyConversionWrapper>
@@ -71,7 +71,7 @@ const CurrencyConversion = () => {
         <p>{CDI}%</p>
       </div>
     </CurrencyConversionWrapper>
-  );
+  )
 }
 
 export default CurrencyConversion

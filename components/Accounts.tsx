@@ -11,15 +11,14 @@ const AccountsWrapper = styled.div`
     width: 100%;
     display: flex;
     span {
-      padding: .25rem;
+      padding: 0.25rem;
       border: 1px solid lightgrey;
       color: #80808075;
-      font-size: .75rem;
+      font-size: 0.75rem;
       width: 25%;
     }
   }
 `
-
 
 const Accounts = () => {
   return (
@@ -79,7 +78,6 @@ const Accounts = () => {
           <span>$7.090,01</span>
           <span>63,79%</span>
         </div>
-
       </div>
     </AccountsWrapper>
   )

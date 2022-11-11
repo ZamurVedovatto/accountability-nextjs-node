@@ -1,14 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import Table from 'react-bootstrap/Table';
+import Table from 'react-bootstrap/Table'
 
 const StrategiesWrapper = styled.div`
-  font-size: .75rem;
+  font-size: 0.75rem;
 `
 
 function Strategies() {
   return (
     <StrategiesWrapper>
+      <span className="text-muted fs-4">
+        set cdk-dnd-material-angular to reorder priorities
+      </span>
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>

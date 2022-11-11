@@ -1,9 +1,9 @@
 import React from 'react'
-import Table from 'react-bootstrap/Table';
+import Table from 'react-bootstrap/Table'
 import styled from 'styled-components'
 
 const ProjectionsWrapper = styled.div`
-  font-size: .75rem;
+  font-size: 0.75rem;
 `
 
 function Projections() {

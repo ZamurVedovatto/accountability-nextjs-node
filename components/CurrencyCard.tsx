@@ -6,8 +6,7 @@ const signTypes = {
   cdi: 'cd',
 }
 
-const CurrencyCard = ({curKey, curVal}) => {
-  
+const CurrencyCard = ({ curKey, curVal }) => {
   return (
     <div className="currency-card">
       <span>{curKey}</span>
