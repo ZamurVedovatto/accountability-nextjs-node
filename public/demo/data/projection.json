@@ -1,0 +1,16 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"name": "Reserva de emergência",
+			"balance": 30000,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1001",
+			"name": "Cash",
+			"balance": 0,
+			"updatedAt": "21/11/2022"
+		}
+	]
+}

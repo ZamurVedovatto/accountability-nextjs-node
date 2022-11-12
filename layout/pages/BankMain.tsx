@@ -27,6 +27,7 @@ export default function BankMain({ smallSize }) {
   const [submitted, setSubmitted] = useState(false)
   const [globalFilter, setGlobalFilter] = useState(null)
   const [showHeader, setShowHeader] = useState(true)
+  const [loading, setLoading] = useState(true)
   const toast = useRef(null)
   const dt = useRef(null)
 
@@ -35,7 +36,11 @@ export default function BankMain({ smallSize }) {
   }, [smallSize])
 
   useEffect(() => {
+    setLoading(true)
     getAllAccounts().then((data) => setProducts(data))
+    setTimeout(() => {
+      setLoading(false)
+    }, 1500)
   }, [])
 
   const formatCurrency = (value) => {
@@ -296,6 +301,9 @@ export default function BankMain({ smallSize }) {
         dataKey="id"
         globalFilter={globalFilter}
         header={showHeader ? headerComp : null}
+        loading={loading}
+        lazy
+        stateKey="table-bank-main-session"
       >
         {!smallSize ? (
           <Column
@@ -309,20 +317,20 @@ export default function BankMain({ smallSize }) {
           field="name"
           header="Name"
           sortable
-          style={{ minWidth: '16rem' }}
+          style={{ minWidth: '10rem' }}
         ></Column>
         <Column
           field="balance"
           header="Balance"
           body={balanceBodyTemplate}
           sortable
-          style={{ minWidth: '8rem' }}
+          style={{ minWidth: '6rem' }}
         ></Column>
         {!smallSize ? (
           <Column
             body={actionBodyTemplate}
             exportable={false}
-            style={{ minWidth: '8rem' }}
+            style={{ minWidth: '6rem' }}
           ></Column>
         ) : null}
       </DataTable>

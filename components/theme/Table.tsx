@@ -1,5 +1,5 @@
 import React from 'react'
-import TableExample from './../layout/pages/TableExample.tsx'
+import TableExample from './../../layout/pages/TableExample.tsx'
 import styled from 'styled-components'
 
 const TableExampleWrapper = styled.div`
