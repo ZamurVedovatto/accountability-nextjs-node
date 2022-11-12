@@ -2,20 +2,27 @@ import React, { useState, useEffect, useRef } from 'react'
 import { classNames } from 'primereact/utils'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { getAll as getAllAccounts } from './AccountsService'
+import { getProducts } from './ProductService'
 import { Toast } from 'primereact/toast'
 import { Button } from 'primereact/button'
+import { Rating } from 'primereact/rating'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
 import { InputNumber } from 'primereact/inputnumber'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
 
-export default function BankMain({ smallSize }) {
+export default function BankMain() {
   let emptyProduct = {
     id: null,
     name: '',
-    balance: 0,
+    image: null,
+    description: '',
+    category: null,
+    price: 0,
+    quantity: 0,
+    rating: 0,
+    inventoryStatus: 'INSTOCK',
   }
 
   const [products, setProducts] = useState(null)
@@ -26,20 +33,15 @@ export default function BankMain({ smallSize }) {
   const [selectedProducts, setSelectedProducts] = useState(null)
   const [submitted, setSubmitted] = useState(false)
   const [globalFilter, setGlobalFilter] = useState(null)
-  const [showHeader, setShowHeader] = useState(true)
   const toast = useRef(null)
   const dt = useRef(null)
 
   useEffect(() => {
-    setShowHeader(!smallSize)
-  }, [smallSize])
-
-  useEffect(() => {
-    getAllAccounts().then((data) => setProducts(data))
+    getProducts().then((data) => setProducts(data))
   }, [])
 
   const formatCurrency = (value) => {
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
   }
 
   const openNew = () => {
@@ -79,6 +81,7 @@ export default function BankMain({ smallSize }) {
         })
       } else {
         _product.id = createId()
+        _product.image = 'product-placeholder.svg'
         _products.push(_product)
         toast.current.show({
           severity: 'success',
@@ -159,6 +162,12 @@ export default function BankMain({ smallSize }) {
     })
   }
 
+  const onCategoryChange = (e) => {
+    let _product = { ...product }
+    _product['category'] = e.value
+    setProduct(_product)
+  }
+
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || ''
     let _product = { ...product }
@@ -175,12 +184,36 @@ export default function BankMain({ smallSize }) {
     setProduct(_product)
   }
 
-  const onToggleTableHeader = () => {
-    setShowHeader(!showHeader)
+  const imageBodyTemplate = (rowData) => {
+    return (
+      <img
+        src={`demo/images/product/${rowData.image}`}
+        onError={(e) =>
+          (e.target.src =
+            'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
+        }
+        alt={rowData.image}
+        className="w-7rem shadow-2"
+      />
+    )
   }
 
-  const balanceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.balance)
+  const priceBodyTemplate = (rowData) => {
+    return formatCurrency(rowData.price)
+  }
+
+  const ratingBodyTemplate = (rowData) => {
+    return <Rating value={rowData.rating} readOnly cancel={false} />
+  }
+
+  const statusBodyTemplate = (rowData) => {
+    return (
+      <span
+        className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}
+      >
+        {rowData.inventoryStatus}
+      </span>
+    )
   }
 
   const actionBodyTemplate = (rowData) => {
@@ -200,7 +233,7 @@ export default function BankMain({ smallSize }) {
     )
   }
 
-  const headerComp = (
+  const header = (
     <div className="flex flex-column md:flex-row md:align-items-center justify-content-between">
       <span className="p-input-icon-left w-full md:w-auto">
         <i className="pi pi-search" />
@@ -286,45 +319,74 @@ export default function BankMain({ smallSize }) {
   return (
     <div className="datatable-crud-demo surface-card p-4 border-round shadow-2">
       <Toast ref={toast} />
+
+      <div className="text-3xl text-800 font-bold mb-4">PrimeReact CRUD</div>
+
       <DataTable
         ref={dt}
         value={products}
-        responsiveLayout="scroll"
-        size="small"
         selection={selectedProducts}
         onSelectionChange={(e) => setSelectedProducts(e.value)}
         dataKey="id"
+        paginator
+        rows={10}
+        rowsPerPageOptions={[5, 10, 25]}
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
         globalFilter={globalFilter}
-        header={showHeader ? headerComp : null}
+        header={header}
+        responsiveLayout="scroll"
       >
-        {!smallSize ? (
-          <Column
-            selectionMode="multiple"
-            headerStyle={{ width: '3rem' }}
-            exportable={false}
-          ></Column>
-        ) : null}
-
+        <Column
+          selectionMode="multiple"
+          headerStyle={{ width: '3rem' }}
+          exportable={false}
+        ></Column>
+        <Column
+          field="code"
+          header="Code"
+          sortable
+          style={{ minWidth: '12rem' }}
+        ></Column>
         <Column
           field="name"
           header="Name"
           sortable
           style={{ minWidth: '16rem' }}
         ></Column>
+        <Column field="image" header="Image" body={imageBodyTemplate}></Column>
         <Column
-          field="balance"
-          header="Balance"
-          body={balanceBodyTemplate}
+          field="price"
+          header="Price"
+          body={priceBodyTemplate}
           sortable
           style={{ minWidth: '8rem' }}
         ></Column>
-        {!smallSize ? (
-          <Column
-            body={actionBodyTemplate}
-            exportable={false}
-            style={{ minWidth: '8rem' }}
-          ></Column>
-        ) : null}
+        <Column
+          field="category"
+          header="Category"
+          sortable
+          style={{ minWidth: '10rem' }}
+        ></Column>
+        <Column
+          field="rating"
+          header="Reviews"
+          body={ratingBodyTemplate}
+          sortable
+          style={{ minWidth: '12rem' }}
+        ></Column>
+        <Column
+          field="inventoryStatus"
+          header="Status"
+          body={statusBodyTemplate}
+          sortable
+          style={{ minWidth: '12rem' }}
+        ></Column>
+        <Column
+          body={actionBodyTemplate}
+          exportable={false}
+          style={{ minWidth: '8rem' }}
+        ></Column>
       </DataTable>
 
       <Dialog
@@ -337,6 +399,17 @@ export default function BankMain({ smallSize }) {
         footer={productDialogFooter}
         onHide={hideDialog}
       >
+        {product.image && (
+          <img
+            src={`demo/images/product/${product.image}`}
+            onError={(e) =>
+              (e.target.src =
+                'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
+            }
+            alt={product.image}
+            className="block mt-0 mx-auto mb-5 w-20rem shadow-2"
+          />
+        )}
         <div className="field">
           <label htmlFor="name">Name</label>
           <InputText
@@ -351,16 +424,83 @@ export default function BankMain({ smallSize }) {
             <small className="p-error">Name is required.</small>
           )}
         </div>
+        <div className="field">
+          <label htmlFor="description">Description</label>
+          <InputTextarea
+            id="description"
+            value={product.description}
+            onChange={(e) => onInputChange(e, 'description')}
+            required
+            rows={3}
+            cols={20}
+          />
+        </div>
+
+        <div className="field">
+          <label className="mb-3">Category</label>
+          <div className="formgrid grid">
+            <div className="field-radiobutton col-6">
+              <RadioButton
+                inputId="category1"
+                name="category"
+                value="Accessories"
+                onChange={onCategoryChange}
+                checked={product.category === 'Accessories'}
+              />
+              <label htmlFor="category1">Accessories</label>
+            </div>
+            <div className="field-radiobutton col-6">
+              <RadioButton
+                inputId="category2"
+                name="category"
+                value="Clothing"
+                onChange={onCategoryChange}
+                checked={product.category === 'Clothing'}
+              />
+              <label htmlFor="category2">Clothing</label>
+            </div>
+            <div className="field-radiobutton col-6">
+              <RadioButton
+                inputId="category3"
+                name="category"
+                value="Electronics"
+                onChange={onCategoryChange}
+                checked={product.category === 'Electronics'}
+              />
+              <label htmlFor="category3">Electronics</label>
+            </div>
+            <div className="field-radiobutton col-6">
+              <RadioButton
+                inputId="category4"
+                name="category"
+                value="Fitness"
+                onChange={onCategoryChange}
+                checked={product.category === 'Fitness'}
+              />
+              <label htmlFor="category4">Fitness</label>
+            </div>
+          </div>
+        </div>
+
         <div className="formgrid grid">
           <div className="field col">
-            <label htmlFor="balance">Balance</label>
+            <label htmlFor="price">Price</label>
             <InputNumber
-              id="balance"
-              value={product.balance}
-              onValueChange={(e) => onInputNumberChange(e, 'balance')}
+              id="price"
+              value={product.price}
+              onValueChange={(e) => onInputNumberChange(e, 'price')}
               mode="currency"
               currency="USD"
               locale="en-US"
+            />
+          </div>
+          <div className="field col">
+            <label htmlFor="quantity">Quantity</label>
+            <InputNumber
+              id="quantity"
+              value={product.quantity}
+              onValueChange={(e) => onInputNumberChange(e, 'quantity')}
+              integeronly="true"
             />
           </div>
         </div>

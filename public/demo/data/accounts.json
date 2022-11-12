@@ -1,0 +1,14 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"name": "C6 Bank",
+			"balance": 3478.75
+		},
+		{
+			"id": "1001",
+			"name": "Nubank",
+			"balance": 1500.00
+		}
+	]
+}

@@ -9,7 +9,7 @@ const BankMainWrapper = styled.div`
 function bank() {
   return (
     <BankMainWrapper>
-      <BankMain />
+      <BankMain smallSize={false} />
     </BankMainWrapper>
   )
 }

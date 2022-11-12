@@ -1,13 +1,13 @@
 import React from 'react'
 // import CurrencyConverter from './../utils/CurrencyConverter'
 import CurrencyConversion from './../components/CurrencyConversion'
-import Accounts from './../components/Accounts'
+import BankMain from './pages/BankMain'
 
 const Panel = () => {
   return (
     <div>
       <CurrencyConversion />
-      <Accounts />
+      <BankMain smallSize={true} />
     </div>
   )
 }
