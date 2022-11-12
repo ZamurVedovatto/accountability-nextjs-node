@@ -2,13 +2,45 @@
 	"data": [
 		{
 			"id": "1000",
-			"name": "C6 Bank",
-			"balance": 3478.75
+			"name": "Itaú",
+			"balance": 100,
+			"updatedAt": "21/11/2022"
 		},
 		{
 			"id": "1001",
+			"name": "Cash",
+			"balance": 0,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1002",
+			"name": "Sodexo",
+			"balance": 513.39,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1003",
+			"name": "Banco Inter",
+			"balance": 2.12,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1004",
 			"name": "Nubank",
-			"balance": 1500.00
+			"balance": 1047.1,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1005",
+			"name": "Banco do Brasil",
+			"balance": 535.4,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1006",
+			"name": "C6 Bank",
+			"balance": 2385.31,
+			"updatedAt": "21/11/2022"
 		}
 	]
 }

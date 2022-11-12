@@ -1,0 +1,14 @@
+{
+	"data": [
+    {
+      "id": 1,
+      "name": "Income",
+      "balance": 1234
+    },
+    {
+      "id": 2,
+      "name": "Outcome",
+      "balance": 12345
+    }
+  ]
+}
