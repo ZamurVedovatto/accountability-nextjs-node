@@ -12,7 +12,7 @@ import { InputNumber } from 'primereact/inputnumber'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
 
-export default function BankMain() {
+export default function TableExample() {
   let emptyProduct = {
     id: null,
     name: '',

@@ -4,12 +4,13 @@ import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { getAll as getAllAccounts } from './AccountsService'
 import { Toast } from 'primereact/toast'
-import { Button } from 'primereact/button'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
 import { InputNumber } from 'primereact/inputnumber'
+import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
+import DialogProducts from './../../utils/DialogProducts'
 
 export default function BankMain({ smallSize }) {
   let emptyProduct = {
@@ -271,69 +272,57 @@ export default function BankMain({ smallSize }) {
     </React.Fragment>
   )
 
-  const deleteProductsDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="No"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={hideDeleteProductsDialog}
-      />
-      <Button
-        label="Yes"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={deleteSelectedProducts}
-      />
-    </React.Fragment>
-  )
-
   return (
-    <div className="datatable-crud-demo surface-card p-4 border-round shadow-2">
+    <div className="h-100 w-100 p-4 border-round shadow-2">
       <Toast ref={toast} />
-      <DataTable
-        ref={dt}
-        value={products}
-        responsiveLayout="scroll"
-        size="small"
-        selection={selectedProducts}
-        onSelectionChange={(e) => setSelectedProducts(e.value)}
-        dataKey="id"
-        globalFilter={globalFilter}
-        header={showHeader ? headerComp : null}
-        loading={loading}
-        lazy
-        stateKey="table-bank-main-session"
-      >
-        {!smallSize ? (
-          <Column
-            selectionMode="multiple"
-            headerStyle={{ width: '3rem' }}
-            exportable={false}
-          ></Column>
-        ) : null}
+      <div>header - placeholder - actions</div>
+      <div>
+        <DataTable
+          ref={dt}
+          value={products}
+          responsiveLayout="scroll"
+          size="small"
+          selection={selectedProducts}
+          onSelectionChange={(e) => setSelectedProducts(e.value)}
+          dataKey="id"
+          globalFilter={globalFilter}
+          header={showHeader ? headerComp : null}
+          loading={loading}
+          lazy
+          stateKey="table-bank-main-session"
+        >
+          {!smallSize ? (
+            <Column
+              selectionMode="multiple"
+              headerStyle={{ width: '3rem' }}
+              exportable={false}
+            ></Column>
+          ) : null}
 
-        <Column
-          field="name"
-          header="Name"
-          sortable
-          style={{ minWidth: '10rem' }}
-        ></Column>
-        <Column
-          field="balance"
-          header="Balance"
-          body={balanceBodyTemplate}
-          sortable
-          style={{ minWidth: '6rem' }}
-        ></Column>
-        {!smallSize ? (
           <Column
-            body={actionBodyTemplate}
-            exportable={false}
+            field="name"
+            header="Name"
+            sortable
+            style={{ minWidth: '10rem' }}
+          ></Column>
+          <Column
+            field="balance"
+            header="Balance"
+            body={balanceBodyTemplate}
+            sortable
             style={{ minWidth: '6rem' }}
           ></Column>
-        ) : null}
-      </DataTable>
+          {!smallSize ? (
+            <Column
+              body={actionBodyTemplate}
+              exportable={false}
+              style={{ minWidth: '6rem' }}
+            ></Column>
+          ) : null}
+        </DataTable>
+      </div>
+
+      <div>footer - actions</div>
 
       <Dialog
         visible={productDialog}
@@ -395,24 +384,12 @@ export default function BankMain({ smallSize }) {
         </div>
       </Dialog>
 
-      <Dialog
-        visible={deleteProductsDialog}
-        style={{ width: '450px' }}
-        header="Confirm"
-        modal
-        footer={deleteProductsDialogFooter}
-        onHide={hideDeleteProductsDialog}
-      >
-        <div className="flex align-items-center justify-content-center">
-          <i
-            className="pi pi-exclamation-triangle mr-3"
-            style={{ fontSize: '2rem' }}
-          />
-          {product && (
-            <span>Are you sure you want to delete the selected products?</span>
-          )}
-        </div>
-      </Dialog>
+      <DialogProducts
+        deleteProductsDialog={deleteProductsDialog}
+        hideDeleteProductsDialog={hideDeleteProductsDialog}
+        deleteSelectedProducts={deleteSelectedProducts}
+        product={product}
+      />
     </div>
   )
 }

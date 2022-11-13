@@ -17,10 +17,21 @@ const ToolbarWrapper = styled.div`
     .p-dock-list {
       background-color: #ffffff3b;
       .p-dock-item {
+        cursor: pointer;
         a {
+          cursor: pointer;
           color: white;
+          text-decoration: none;
+          &:hover {
+            i {
+              color: yellow;
+            }
+          }
           i {
             font-size: 2rem;
+            &.active {
+              color: red;
+            }
           }
         }
       }
@@ -30,21 +41,35 @@ const ToolbarWrapper = styled.div`
 `
 
 const Toolbar = () => {
+  const [something, setSomething] = useState('p-3')
   const router = useRouter()
+
+  console.log(router.pathname)
+
+  const onChangeRoute = (e, route) => {
+    router.push(route)
+  }
+
+  const activeLink = (route) => {
+    return router.pathname == route ? 'active' : ''
+  }
 
   const items = [
     {
       label: 'Panel',
       icon: () => (
-        <i className="pi pi-microsoft" onClick={() => router.push('/')}></i>
+        <i
+          className={'pi pi-microsoft ' + activeLink('/')}
+          onClick={(e) => onChangeRoute(e, '/')}
+        ></i>
       ),
     },
     {
       label: 'Accounts',
       icon: () => (
         <i
-          className="pi pi-calculator"
-          onClick={() => router.push('/bank')}
+          className={'pi pi-calculator ' + activeLink('/bank')}
+          onClick={(e) => onChangeRoute(e, '/bank')}
         ></i>
       ),
     },
@@ -52,8 +77,8 @@ const Toolbar = () => {
       label: 'Strategies',
       icon: () => (
         <i
-          className="pi pi-hourglass"
-          onClick={() => router.push('/strategies')}
+          className="${router.pathname == '/strategies' ? 'active' : ''} pi pi-hourglass"
+          onClick={(e) => onChangeRoute(e, '/strategies')}
         ></i>
       ),
     },
@@ -61,38 +86,44 @@ const Toolbar = () => {
       label: 'Projections',
       icon: () => (
         <i
-          className="pi pi-chart-bar"
-          onClick={() => router.push('/projections')}
+          className="${router.pathname == '/projections' ? 'active' : ''} pi pi-chart-bar"
+          onClick={(e) => onChangeRoute(e, '/projections')}
         ></i>
       ),
     },
     {
       label: 'Crypto',
       icon: () => (
-        <i className="pi pi-bitcoin" onClick={() => router.push('/crypto')}></i>
+        <i
+          className="${router.pathname == '/crypto' ? 'active' : ''} pi pi-bitcoin"
+          onClick={(e) => onChangeRoute(e, '/crypto')}
+        ></i>
       ),
     },
     {
       label: 'Million',
       icon: () => (
         <i
-          className="pi pi-money-bill"
-          onClick={() => router.push('/million')}
+          className="${router.pathname == '/million' ? 'active' : ''} pi pi-money-bill"
+          onClick={(e) => onChangeRoute(e, '/million')}
         ></i>
       ),
     },
     {
       label: 'FIIs',
       icon: () => (
-        <i className="pi pi-building" onClick={() => router.push('/fiis')}></i>
+        <i
+          className="${router.pathname == '/fiis' ? 'active' : ''} pi pi-building"
+          onClick={(e) => onChangeRoute(e, '/fiis')}
+        ></i>
       ),
     },
     {
       label: 'Instalments',
       icon: () => (
         <i
-          className="pi pi-server"
-          onClick={() => router.push('/instalments')}
+          className="${router.pathname == '/instalments' ? 'active' : ''} pi pi-server"
+          onClick={(e) => onChangeRoute(e, '/instalments')}
         ></i>
       ),
     },
@@ -100,15 +131,18 @@ const Toolbar = () => {
       label: 'CurrentPrices',
       icon: () => (
         <i
-          className="pi pi-paperclip"
-          onClick={() => router.push('/current-prices')}
+          className="${router.pathname == '/current-prices' ? 'active' : ''} pi pi-paperclip"
+          onClick={(e) => onChangeRoute(e, '/current-prices')}
         ></i>
       ),
     },
     {
       label: 'Demo',
       icon: () => (
-        <i className="pi pi-images" onClick={() => router.push('/demo')}></i>
+        <i
+          className="${router.pathname == '/demo' ? 'active' : ''} pi pi-images"
+          onClick={(e) => router.push(e, '/demo')}
+        ></i>
       ),
     },
   ]

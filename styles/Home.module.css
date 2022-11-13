@@ -47,14 +47,6 @@
   padding: 1rem;
 }
 
-.toolbarMain {
-  border: 1px solid #77889963;
-  border-radius: 3px;
-  /* background-color: #010101; */
-  grid-area: toolbar;
-  padding: 0.5rem;
-}
-
 .breadcrumb-item.active {
   color: beige;
 }

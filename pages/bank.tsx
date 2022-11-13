@@ -1,16 +1,12 @@
 import React from 'react'
 import BankMain from './../layout/pages/BankMain.tsx'
-import styled from 'styled-components'
-
-const BankMainWrapper = styled.div`
-  min-height: calc(100vh - 64px);
-`
+import { PageContentWrapper } from './../styles/utils/PageContentStyles'
 
 function bank() {
   return (
-    <BankMainWrapper>
+    <PageContentWrapper>
       <BankMain smallSize={false} />
-    </BankMainWrapper>
+    </PageContentWrapper>
   )
 }
 

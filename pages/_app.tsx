@@ -8,13 +8,13 @@ import 'primeflex/primeflex.css'
 
 import type { AppProps } from 'next/app'
 
-import ToolbarMain from './../layout/pages/ToolbarMain'
+import Toolbar from './../layout/Toolbar'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Component {...pageProps} />
-      <ToolbarMain />
+      <Toolbar />
     </>
   )
 }
