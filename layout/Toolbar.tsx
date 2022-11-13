@@ -7,6 +7,7 @@ import { Image } from 'primereact/image'
 
 import styled from 'styled-components'
 
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 const ToolbarWrapper = styled.div`
@@ -26,67 +27,88 @@ const ToolbarWrapper = styled.div`
     }
   }
   width: 100%;
-  .list-group-item {
-    padding: 0.25rem;
-    font-size: 0.85rem;
-  }
-  a {
-    text-align: center;
-  }
 `
 
 const Toolbar = () => {
-  const imgPath = 'images/dock'
-  const imgErrorPath =
-    'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'
+  const router = useRouter()
 
   const items = [
     {
       label: 'Panel',
       icon: () => (
-        <Link href="/">
-          <i className="pi pi-bookmark-fill"></i>
-        </Link>
+        <i className="pi pi-microsoft" onClick={() => router.push('/')}></i>
       ),
     },
     {
       label: 'Accounts',
       icon: () => (
-        <Link href="/bank">
-          <i className="pi pi-calculator"></i>
-        </Link>
-      ),
-    },
-    {
-      label: 'Projections',
-      icon: () => (
-        <Link href="/demo">
-          <i className="pi pi-chart-bar"></i>
-        </Link>
+        <i
+          className="pi pi-calculator"
+          onClick={() => router.push('/bank')}
+        ></i>
       ),
     },
     {
       label: 'Strategies',
       icon: () => (
-        <Link href="/demo">
-          <i className="pi pi-hourglass"></i>
-        </Link>
+        <i
+          className="pi pi-hourglass"
+          onClick={() => router.push('/strategies')}
+        ></i>
+      ),
+    },
+    {
+      label: 'Projections',
+      icon: () => (
+        <i
+          className="pi pi-chart-bar"
+          onClick={() => router.push('/projections')}
+        ></i>
       ),
     },
     {
       label: 'Crypto',
       icon: () => (
-        <Link href="/demo">
-          <i className="pi pi-bitcoin"></i>
-        </Link>
+        <i className="pi pi-bitcoin" onClick={() => router.push('/crypto')}></i>
+      ),
+    },
+    {
+      label: 'Million',
+      icon: () => (
+        <i
+          className="pi pi-money-bill"
+          onClick={() => router.push('/million')}
+        ></i>
+      ),
+    },
+    {
+      label: 'FIIs',
+      icon: () => (
+        <i className="pi pi-building" onClick={() => router.push('/fiis')}></i>
+      ),
+    },
+    {
+      label: 'Instalments',
+      icon: () => (
+        <i
+          className="pi pi-server"
+          onClick={() => router.push('/instalments')}
+        ></i>
+      ),
+    },
+    {
+      label: 'CurrentPrices',
+      icon: () => (
+        <i
+          className="pi pi-paperclip"
+          onClick={() => router.push('/current-prices')}
+        ></i>
       ),
     },
     {
       label: 'Demo',
       icon: () => (
-        <Link href="/demo">
-          <i className="pi pi-pi-clone"></i>
-        </Link>
+        <i className="pi pi-images" onClick={() => router.push('/demo')}></i>
       ),
     },
   ]
@@ -94,24 +116,6 @@ const Toolbar = () => {
   return (
     <ToolbarWrapper>
       <Dock model={items} />
-      {/* <ListGroup horizontal>
-        <ListGroup.Item variant="light">
-          <Link href="/bank">Accounts</Link>
-        </ListGroup.Item>
-        <ListGroup.Item variant="light">
-          <Link href="/">Panel</Link>
-        </ListGroup.Item>
-        <ListGroup.Item variant="light">Strategies</ListGroup.Item>
-        <ListGroup.Item variant="light">Cryptos</ListGroup.Item>
-        <ListGroup.Item variant="light">FII</ListGroup.Item>
-        <ListGroup.Item variant="light">Installment</ListGroup.Item>
-        <ListGroup.Item variant="light">Projections</ListGroup.Item>
-        <ListGroup.Item variant="light">Plans</ListGroup.Item>
-
-        <ListGroup.Item variant="light">
-          <Link href="/demo">Demos</Link>
-        </ListGroup.Item>
-      </ListGroup> */}
     </ToolbarWrapper>
   )
 }
