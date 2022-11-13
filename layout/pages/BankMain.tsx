@@ -10,6 +10,8 @@ import { InputNumber } from 'primereact/inputnumber'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
+
+import DialogProduct from './../../utils/DialogProduct'
 import DialogProducts from './../../utils/DialogProducts'
 
 export default function BankMain({ smallSize }) {
@@ -226,14 +228,6 @@ export default function BankMain({ smallSize }) {
           tooltipOptions={{ position: 'bottom' }}
         />
         <Button
-          icon="pi pi-trash"
-          className="p-button-danger mr-2 p-button-rounded"
-          onClick={confirmDeleteSelected}
-          disabled={!selectedProducts || !selectedProducts.length}
-          tooltip="Delete"
-          tooltipOptions={{ position: 'bottom' }}
-        />
-        <Button
           icon="pi pi-upload"
           className="p-button-help p-button-rounded"
           onClick={exportCSV}
@@ -243,6 +237,7 @@ export default function BankMain({ smallSize }) {
       </div>
     </div>
   )
+
   const productDialogFooter = (
     <React.Fragment>
       <Button
@@ -252,23 +247,6 @@ export default function BankMain({ smallSize }) {
         onClick={hideDialog}
       />
       <Button label="Save" icon="pi pi-check" onClick={saveProduct} />
-    </React.Fragment>
-  )
-
-  const deleteProductDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="No"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={hideDeleteProductDialog}
-      />
-      <Button
-        label="Yes"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={deleteProduct}
-      />
     </React.Fragment>
   )
 
@@ -292,11 +270,7 @@ export default function BankMain({ smallSize }) {
           stateKey="table-bank-main-session"
         >
           {!smallSize ? (
-            <Column
-              selectionMode="multiple"
-              headerStyle={{ width: '3rem' }}
-              exportable={false}
-            ></Column>
+            <Column headerStyle={{ width: '3rem' }} exportable={false}></Column>
           ) : null}
 
           <Column
@@ -363,26 +337,12 @@ export default function BankMain({ smallSize }) {
         </div>
       </Dialog>
 
-      <Dialog
-        visible={deleteProductDialog}
-        style={{ width: '450px' }}
-        header="Confirm"
-        modal
-        footer={deleteProductDialogFooter}
-        onHide={hideDeleteProductDialog}
-      >
-        <div className="flex align-items-center justify-content-center">
-          <i
-            className="pi pi-exclamation-triangle mr-3"
-            style={{ fontSize: '2rem' }}
-          />
-          {product && (
-            <span>
-              Are you sure you want to delete <b>{product.name}</b>?
-            </span>
-          )}
-        </div>
-      </Dialog>
+      <DialogProduct
+        deleteProductDialog={deleteProductDialog}
+        hideDeleteProductDialog={hideDeleteProductDialog}
+        deleteProduct={deleteProduct}
+        product={product}
+      />
 
       <DialogProducts
         deleteProductsDialog={deleteProductsDialog}
