@@ -10,8 +10,10 @@ import { InputNumber } from 'primereact/inputnumber'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
-import { Card } from 'primereact/card'
+import { Panel } from 'primereact/panel'
 import { Image } from 'primereact/image'
+import Table from 'react-bootstrap/Table'
+import { Card } from 'primereact/card'
 
 import DialogProduct from './../../utils/DialogProduct'
 import DialogProducts from './../../utils/DialogProducts'
@@ -22,8 +24,8 @@ export default function BankMain({ smallSize }) {
     name: '',
     balance: 0,
   }
-
   const [products, setProducts] = useState(null)
+  const [accountsBalance, setAccountsBalance] = useState(10)
   const [productDialog, setProductDialog] = useState(false)
   const [deleteProductDialog, setDeleteProductDialog] = useState(false)
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false)
@@ -270,7 +272,7 @@ export default function BankMain({ smallSize }) {
   return (
     <div className="h-100 w-100 p-4 border-round shadow-2">
       <Toast ref={toast} />
-      <div>
+      <Panel header="Accounts" className="my-4 row">
         <DataTable
           ref={dt}
           value={products}
@@ -310,11 +312,36 @@ export default function BankMain({ smallSize }) {
             ></Column>
           ) : null}
         </DataTable>
-      </div>
 
-      <Card className="my-4" footer={CardInfoFooter}>
-        Content
-      </Card>
+        <Card className="d-flex justify-content-end">
+          <span className="mr-1">Accounts balance: </span>
+          <span className="fw-bold">{formatCurrency(accountsBalance)}</span>
+        </Card>
+      </Panel>
+
+      <Panel
+        header="Nov/22 Results"
+        className="my-4 row bg-transparent d-flex flex-column"
+      >
+        <Card>
+          <Table>
+            <tbody>
+              <tr>
+                <td>Income</td>
+                <td>R$2.456,78</td>
+              </tr>
+              <tr>
+                <td>Outcome</td>
+                <td>R$1.000,78</td>
+              </tr>
+              <tr>
+                <td>Result</td>
+                <td>R$1.456,00</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Card>
+      </Panel>
 
       <Dialog
         visible={productDialog}
