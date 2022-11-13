@@ -10,6 +10,8 @@ import { InputNumber } from 'primereact/inputnumber'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
+import { Card } from 'primereact/card'
+import { Image } from 'primereact/image'
 
 import DialogProduct from './../../utils/DialogProduct'
 import DialogProducts from './../../utils/DialogProducts'
@@ -250,10 +252,24 @@ export default function BankMain({ smallSize }) {
     </React.Fragment>
   )
 
+  const CardInfoFooter = (
+    <div className="w-100 d-flex justify-content-end">
+      <Button
+        label="Save"
+        icon="pi pi-check"
+        style={{ marginRight: '.25em' }}
+      />
+      <Button
+        label="Cancel"
+        icon="pi pi-times"
+        className="p-button-secondary"
+      />
+    </div>
+  )
+
   return (
     <div className="h-100 w-100 p-4 border-round shadow-2">
       <Toast ref={toast} />
-      <div>header - placeholder - actions</div>
       <div>
         <DataTable
           ref={dt}
@@ -296,7 +312,9 @@ export default function BankMain({ smallSize }) {
         </DataTable>
       </div>
 
-      <div>footer - actions</div>
+      <Card className="my-4" footer={CardInfoFooter}>
+        Content
+      </Card>
 
       <Dialog
         visible={productDialog}

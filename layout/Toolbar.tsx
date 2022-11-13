@@ -24,13 +24,13 @@ const ToolbarWrapper = styled.div`
           text-decoration: none;
           &:hover {
             i {
-              color: yellow;
+              color: darkgray;
             }
           }
           i {
             font-size: 2rem;
             &.active {
-              color: red;
+              color: darkgray;
             }
           }
         }

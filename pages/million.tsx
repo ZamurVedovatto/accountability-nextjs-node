@@ -1,12 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
-
-const PageWrapper = styled.div`
-  min-height: calc(100vh - 64px);
-`
+import Projections from './../layout/Projections.tsx'
+import { PageContentWrapper } from './../styles/utils/PageContentStyles'
 
 function Page() {
-  return <PageWrapper>million</PageWrapper>
+  return <PageContentWrapper>million</PageContentWrapper>
 }
 
 export default Page

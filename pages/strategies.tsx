@@ -1,16 +1,13 @@
 import React from 'react'
 import Strategies from './../layout/Strategies.tsx'
 import styled from 'styled-components'
-
-const StrategiesWrapper = styled.div`
-  min-height: calc(100vh - 64px);
-`
+import { PageContentWrapper } from './../styles/utils/PageContentStyles'
 
 function Page() {
   return (
-    <StrategiesWrapper>
+    <PageContentWrapper>
       <Strategies smallSize={false} />
-    </StrategiesWrapper>
+    </PageContentWrapper>
   )
 }
 

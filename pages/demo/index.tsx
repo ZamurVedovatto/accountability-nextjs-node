@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
 
 import styled from 'styled-components'
+import { PageContentWrapper } from './../../styles/utils/PageContentStyles'
 
 import { CascadeSelect } from 'primereact/cascadeselect'
 import Placeholder from 'react-bootstrap/Placeholder'
+import { Image } from 'primereact/image'
 
 import Card from './../../components/theme/Card'
 import Table from './../../components/theme/Table'
+import LineChart from './../../components/theme/LineChart'
 
 const DocWrapper = styled.div`
-  // overflow-x: hidden;
-  // max-height: calc(100vh - 64px);
-  // height: calc(100vh - 64px);
-  // overflow-y: auto;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,8 +21,8 @@ const DocWrapper = styled.div`
   > div {
     height: 100%;
     padding: 1rem;
-    &:not(:last-child) {
-      border-bottom: 2rem #ffa50024 solid;
+    &:last-child {
+      padding-bottom: 120px;
     }
   }
 `
@@ -111,7 +109,7 @@ const Documentation = () => {
     return (
       <div className="country-item">
         {option.states && (
-          <img
+          <Image
             alt={option.name}
             src="images/flag/flag_placeholder.png"
             onError={(e) =>
@@ -129,33 +127,31 @@ const Documentation = () => {
   }
 
   return (
-    <DocWrapper>
-      <div>
-        <Card />
-      </div>
-      <div>
-        <Table />
-      </div>
-      <div>
-        <CascadeSelect
-          value={selectedCity1}
-          options={countries}
-          optionLabel={'cname'}
-          optionGroupLabel={'name'}
-          optionGroupChildren={['states', 'cities']}
-          style={{ minWidth: '14rem' }}
-          placeholder={'Select a City'}
-          onChange={(event) => setSelectedCity1(event.value)}
-        />
-      </div>
-      {/* <div></div> */}
-      <div>
-        <Placeholder xs={12} size="lg" />
-        <Placeholder xs={12} />
-        <Placeholder xs={12} size="sm" />
-        <Placeholder xs={12} size="xs" />
-      </div>
-    </DocWrapper>
+    <PageContentWrapper>
+      <DocWrapper>
+        <div className="m-4">
+          <Card />
+        </div>
+        <div className="m-4">
+          <Table />
+        </div>
+        <div className="m-4">
+          <LineChart />
+        </div>
+        <div className="m-4">
+          <CascadeSelect
+            value={selectedCity1}
+            options={countries}
+            optionLabel={'cname'}
+            optionGroupLabel={'name'}
+            optionGroupChildren={['states', 'cities']}
+            style={{ minWidth: '14rem' }}
+            placeholder={'Select a City'}
+            onChange={(event) => setSelectedCity1(event.value)}
+          />
+        </div>
+      </DocWrapper>
+    </PageContentWrapper>
   )
 }
 

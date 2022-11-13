@@ -1,16 +1,12 @@
 import React from 'react'
 import Projections from './../layout/Projections.tsx'
-import styled from 'styled-components'
-
-const ProjectionsWrapper = styled.div`
-  min-height: calc(100vh - 64px);
-`
+import { PageContentWrapper } from './../styles/utils/PageContentStyles'
 
 function Page() {
   return (
-    <ProjectionsWrapper>
+    <PageContentWrapper>
       <Projections smallSize={false} />
-    </ProjectionsWrapper>
+    </PageContentWrapper>
   )
 }
 

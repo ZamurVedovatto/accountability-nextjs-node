@@ -1,9 +1,13 @@
 import styled from 'styled-components'
 
+const breadcrumbHeight = '51px'
+
 export const PageContentWrapper = styled.div`
-  height: 100vh;
-  min-height: 100vh;
+  height: calc(100vh - ${breadcrumbHeight});
+  min-height: calc(100vh - ${breadcrumbHeight});
+  max-height: calc(100vh - ${breadcrumbHeight});
   width: 100%;
-  padding: 1rem 1.25rem calc(120px + 1rem);
   background-color: #f8f9fa;
+  overflow-x: hidden;
+  overflow-y: auto;
 `
