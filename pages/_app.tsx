@@ -2,8 +2,10 @@ import '../styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import styled from 'styled-components'
 
-import { BreadCrumb } from 'primereact/breadcrumb'
+import { useRouter } from 'next/router'
+import type { AppProps } from 'next/app'
 
+import { BreadCrumb } from 'primereact/breadcrumb'
 import {
   locale,
   addLocale,
@@ -20,12 +22,10 @@ import { Menubar } from 'primereact/menubar'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 
-import type { AppProps } from 'next/app'
-
 import Toolbar from './../layout/Toolbar'
 
 const BreadCrumbWrapper = styled.div`
-width: 100%
+  width: 100%
   position: fixed;
   top: 0;
 `
@@ -241,7 +241,7 @@ addLocale('pt', {
 export default function App({ Component, pageProps }: AppProps) {
   locale('pt')
 
-  const items = [{ label: 'Accounts' }, { label: 'Income' }]
+  const items = [{ label: 'Accounts', url: '/bank' }, { label: 'Income' }]
 
   const home = {
     icon: 'pi pi-home',

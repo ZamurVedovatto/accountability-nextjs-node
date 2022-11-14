@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { formatCurrency } from './../../utils/format_currency_br'
+
+import { getAll as getAllAccounts } from './AccountsService'
+import { getIncomeMonthSum } from './EntryService'
+
 import { classNames } from 'primereact/utils'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { getAll as getAllAccounts } from './AccountsService'
 import { Toast } from 'primereact/toast'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
@@ -38,6 +42,7 @@ export default function BankMain({ smallSize }) {
   }
   const [products, setProducts] = useState(null)
   const [accountsBalance, setAccountsBalance] = useState(10)
+  const [incomeAmount, setIncomeAmount] = useState(0)
   const [productDialog, setProductDialog] = useState(false)
   const [deleteProductDialog, setDeleteProductDialog] = useState(false)
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false)
@@ -67,6 +72,10 @@ export default function BankMain({ smallSize }) {
     console.log('products', sum)
     setAccountsBalance(sum)
   }, [products])
+
+  useEffect(() => {
+    getIncomeMonthSum(null).then((data) => setIncomeAmount(data))
+  }, [setIncomeAmount])
 
   const formatCurrency = (value) => {
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -352,7 +361,7 @@ export default function BankMain({ smallSize }) {
                 <tbody>
                   <tr>
                     <td>Income</td>
-                    <td>R$2.456,78</td>
+                    <td>{formatCurrency(incomeAmount)}</td>
                   </tr>
                   <tr>
                     <td>Outcome</td>

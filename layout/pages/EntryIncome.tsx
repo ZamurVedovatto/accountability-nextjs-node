@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
+import { getAllIncome, getAllOutcome, getIncomeMonthSum } from './EntryService'
+import { formatCurrency } from './../../utils/format_currency_br'
+
 import { classNames } from 'primereact/utils'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { getAllIncome, getAllOutcome } from './EntryService'
 import { Toast } from 'primereact/toast'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
@@ -22,10 +25,6 @@ import DialogEntries from './../../utils/DialogEntries'
 import DialogAdd from './../../utils/DialogAdd'
 
 import PieChartDemo from './../../components/PieChart'
-
-import { formatCurrency } from './../../utils/format_currency_br'
-
-import styled from 'styled-components'
 
 const EntryIncomeWrapper = styled.div`
   height: 100%;
@@ -49,6 +48,8 @@ export default function EntryIncome({ smallSize = false }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date())
   const [loading, setLoading] = useState(true)
   const [showHeader, setShowHeader] = useState(true)
+
+  const [testing, setTesting] = useState(1)
 
   const toast = useRef(null)
   const dt = useRef(null)
@@ -257,6 +258,7 @@ export default function EntryIncome({ smallSize = false }) {
           <label htmlFor="monthpicker" className="me-2">
             Month Picker
           </label>
+
           <Calendar
             id="monthpicker"
             value={selectedMonth}
