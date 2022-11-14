@@ -1,0 +1,34 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"name": "Symplicity Wages",
+			"value": 6450.65,
+			"recurrency": true,
+			"recurrencyMode": "monthly",
+			"endDate": null,
+			"startDate": null,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1001",
+			"name": "Vale Alimentação",
+			"value": 710,
+			"recurrency": true,
+			"recurrencyMode": "monthly",
+			"endDate": null,
+			"startDate": null,
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1001",
+			"name": "Pgto Marcela Bills",
+			"value": 850,
+			"recurrency": false,
+			"recurrencyMode": "monthly",
+			"endDate": null,
+			"startDate": null,
+			"updatedAt": "21/11/2022"
+		}
+	]
+}

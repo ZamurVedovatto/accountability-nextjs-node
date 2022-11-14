@@ -2,37 +2,37 @@ import React from 'react'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 
-const DialogProducts = ({
-  deleteProductsDialog,
-  hideDeleteProductsDialog,
-  deleteSelectedProducts,
+const DialogEntry = ({
+  deleteProductDialog,
+  hideDeleteProductDialog,
+  deleteProduct,
   product,
 }) => {
-  const deleteProductsDialogFooter = (
+  const deleteProductDialogFooter = (
     <React.Fragment>
       <Button
         label="No"
         icon="pi pi-times"
         className="p-button-text"
-        onClick={hideDeleteProductsDialog}
+        onClick={hideDeleteProductDialog}
       />
       <Button
         label="Yes"
         icon="pi pi-check"
         className="p-button-text"
-        onClick={deleteSelectedProducts}
+        onClick={deleteProduct}
       />
     </React.Fragment>
   )
 
   return (
     <Dialog
-      visible={deleteProductsDialog}
+      visible={deleteProductDialog}
       style={{ width: '450px' }}
       header="Confirm"
       modal
-      footer={deleteProductsDialogFooter}
-      onHide={hideDeleteProductsDialog}
+      footer={deleteProductDialogFooter}
+      onHide={hideDeleteProductDialog}
     >
       <div className="flex align-items-center justify-content-center">
         <i
@@ -40,11 +40,13 @@ const DialogProducts = ({
           style={{ fontSize: '2rem' }}
         />
         {product && (
-          <span>Are you sure you want to delete the selected products?</span>
+          <span>
+            Are you sure you want to delete <b>{product.name}</b>?
+          </span>
         )}
       </div>
     </Dialog>
   )
 }
 
-export default DialogProducts
+export default DialogEntry

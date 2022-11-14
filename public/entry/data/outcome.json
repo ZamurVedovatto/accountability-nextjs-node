@@ -1,0 +1,22 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"name": "Symplicity Wages",
+			"value": 6450.65,
+			"recurrency": true,
+			"recurrencyMode": "monthly",
+			"recurrencyEnd": "never",
+			"updatedAt": "21/11/2022"
+		},
+		{
+			"id": "1001",
+			"name": "Vale Alimentação",
+			"value": 700,
+			"recurrency": true,
+			"recurrencyMode": "monthly",
+			"recurrencyEnd": "never",
+			"updatedAt": "21/11/2022"
+		}
+	]
+}

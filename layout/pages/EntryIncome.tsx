@@ -2,53 +2,62 @@ import React, { useState, useEffect, useRef } from 'react'
 import { classNames } from 'primereact/utils'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { getAll as getAllAccounts } from './AccountsService'
+import { getAllIncome, getAllOutcome } from './EntryService'
 import { Toast } from 'primereact/toast'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
 import { InputNumber } from 'primereact/inputnumber'
+import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
-import { InputText } from 'primereact/inputtext'
 import { Panel } from 'primereact/panel'
 import { Image } from 'primereact/image'
 import Table from 'react-bootstrap/Table'
 import { Card } from 'primereact/card'
 import { Tag } from 'primereact/tag'
+import { Calendar } from 'primereact/calendar'
 
 import DialogEntry from './../../utils/DialogEntry'
 import DialogEntries from './../../utils/DialogEntries'
+import DialogAdd from './../../utils/DialogAdd'
 
 import PieChartDemo from './../../components/PieChart'
 
+import { formatCurrency } from './../../utils/format_currency_br'
+
 import styled from 'styled-components'
 
-const BankMainWrapper = styled.div`
+const EntryIncomeWrapper = styled.div`
   height: 100%;
   width: 100%;
   padding: 1rem 2rem 120px;
   overflow-y: auto;
 `
 
-export default function BankMain({ smallSize }) {
+export default function EntryIncome({ smallSize = false }) {
   let emptyProduct = {
     id: null,
     name: '',
-    balance: 0,
+    value: 0,
+    recurrent: true,
+    recurrentMode: 'monthly',
+    recurrentEnd: 'never',
+    updatedAt: '21/11/2022',
   }
-  const [products, setProducts] = useState(null)
-  const [accountsBalance, setAccountsBalance] = useState(10)
-  const [productDialog, setProductDialog] = useState(false)
-  const [deleteProductDialog, setDeleteProductDialog] = useState(false)
-  const [deleteProductsDialog, setDeleteProductsDialog] = useState(false)
-  const [product, setProduct] = useState(emptyProduct)
-  const [selectedProducts, setSelectedProducts] = useState(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [globalFilter, setGlobalFilter] = useState(null)
-  const [showHeader, setShowHeader] = useState(true)
+  const [entries, setEntries] = useState(null)
+  const [entryBalance, setEntryBalance] = useState(0)
+  const [selectedMonth, setSelectedMonth] = useState(new Date())
   const [loading, setLoading] = useState(true)
+  const [showHeader, setShowHeader] = useState(true)
+
   const toast = useRef(null)
   const dt = useRef(null)
+
+  const [productDialog, setProductDialog] = useState(false)
+  const [deleteEntryDialog, setDeleteEntryDialog] = useState(false)
+  const [product, setProduct] = useState(emptyProduct)
+  const [submitted, setSubmitted] = useState(false)
+  const [globalFilter, setGlobalFilter] = useState(null)
 
   useEffect(() => {
     setShowHeader(!smallSize)
@@ -56,21 +65,15 @@ export default function BankMain({ smallSize }) {
 
   useEffect(() => {
     setLoading(true)
-    getAllAccounts().then((data) => setProducts(data))
-    setTimeout(() => {
-      setLoading(false)
-    }, 1500)
+    getAllIncome().then((data) => setEntries(data))
+    setLoading(false)
   }, [])
 
   useEffect(() => {
-    const sum = products ? products.reduce((acc, o) => acc + o.balance, 0) : 0
-    console.log('products', sum)
-    setAccountsBalance(sum)
-  }, [products])
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  }
+    console.log(entries)
+    const sum = entries ? entries.reduce((acc, o) => acc + o.value, 0) : 0
+    setEntryBalance(sum)
+  }, [entries])
 
   const openNew = () => {
     setProduct(emptyProduct)
@@ -83,12 +86,8 @@ export default function BankMain({ smallSize }) {
     setProductDialog(false)
   }
 
-  const hideDeleteProductDialog = () => {
-    setDeleteProductDialog(false)
-  }
-
-  const hideDeleteProductsDialog = () => {
-    setDeleteProductsDialog(false)
+  const hideDeleteEntryDialog = () => {
+    setDeleteEntryDialog(false)
   }
 
   const saveProduct = () => {
@@ -131,13 +130,13 @@ export default function BankMain({ smallSize }) {
 
   const confirmDeleteProduct = (product) => {
     setProduct(product)
-    setDeleteProductDialog(true)
+    setDeleteEntryDialog(true)
   }
 
   const deleteProduct = () => {
     let _products = products.filter((val) => val.id !== product.id)
     setProducts(_products)
-    setDeleteProductDialog(false)
+    setDeleteEntryDialog(false)
     setProduct(emptyProduct)
     toast.current.show({
       severity: 'success',
@@ -172,23 +171,6 @@ export default function BankMain({ smallSize }) {
     dt.current.exportCSV()
   }
 
-  const confirmDeleteSelected = () => {
-    setDeleteProductsDialog(true)
-  }
-
-  const deleteSelectedProducts = () => {
-    let _products = products.filter((val) => !selectedProducts.includes(val))
-    setProducts(_products)
-    setDeleteProductsDialog(false)
-    setSelectedProducts(null)
-    toast.current.show({
-      severity: 'success',
-      summary: 'Successful',
-      detail: 'Products Deleted',
-      life: 3000,
-    })
-  }
-
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || ''
     let _product = { ...product }
@@ -209,8 +191,8 @@ export default function BankMain({ smallSize }) {
     setShowHeader(!showHeader)
   }
 
-  const balanceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.balance)
+  const valueBodyTemplate = (rowData) => {
+    return formatCurrency(rowData.value)
   }
 
   const actionBodyTemplate = (rowData) => {
@@ -260,49 +242,35 @@ export default function BankMain({ smallSize }) {
     </div>
   )
 
-  const productDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={hideDialog}
-      />
-      <Button label="Save" icon="pi pi-check" onClick={saveProduct} />
-    </React.Fragment>
-  )
-
-  const CardInfoFooter = (
-    <div className="w-100 d-flex justify-content-end">
-      <Button
-        label="Save"
-        icon="pi pi-check"
-        style={{ marginRight: '.25em' }}
-      />
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        className="p-button-secondary"
-      />
-    </div>
-  )
-
   return (
-    <BankMainWrapper>
+    <EntryIncomeWrapper>
       <Toast ref={toast} />
+
       <Panel
         toggleable
         collapsed={false}
         header="May 2002 - Accounts"
         className="my-4 row"
       >
+        {/* TODOZ improve recurrent */}
+        <div className="w-100 field col-12 d-flex justify-content-end align-items-baseline">
+          <label htmlFor="monthpicker" className="me-2">
+            Month Picker
+          </label>
+          <Calendar
+            id="monthpicker"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.value)}
+            view="month"
+            dateFormat="mm/yy"
+          />
+        </div>
+
         <DataTable
           ref={dt}
-          value={products}
+          value={entries}
           responsiveLayout="scroll"
           size="small"
-          selection={selectedProducts}
-          onSelectionChange={(e) => setSelectedProducts(e.value)}
           dataKey="id"
           globalFilter={globalFilter}
           header={showHeader ? headerComp : null}
@@ -317,122 +285,36 @@ export default function BankMain({ smallSize }) {
             style={{ minWidth: '10rem' }}
           ></Column>
           <Column
-            field="balance"
-            header="Balance"
-            body={balanceBodyTemplate}
+            field="value"
+            header="Value"
+            body={valueBodyTemplate}
             sortable
             style={{ minWidth: '6rem' }}
           ></Column>
-          {!smallSize ? (
-            <Column
-              body={actionBodyTemplate}
-              exportable={false}
-              style={{ minWidth: '6rem' }}
-            ></Column>
-          ) : null}
         </DataTable>
 
         <Card className="d-flex justify-content-end">
-          <span className="mr-1">May 2002 - Accounts Balance: </span>
-          <span className="fw-bold">{formatCurrency(accountsBalance)}</span>
+          <span className="mr-1">May 2002 - Income Balance: </span>
+          <span className="fw-bold">{formatCurrency(entryBalance)}</span>
         </Card>
       </Panel>
 
-      <Panel
-        toggleable
-        collapsed={true}
-        // header={`${'Analysis' + ${<Tag value="New"></Tag>}}`}
-        header="Analysis"
-        className="my-4 bg-transparent"
-      >
-        <Card>
-          <div className="row">
-            <div className="col-6">
-              <Table>
-                <tbody>
-                  <tr>
-                    <td>Income</td>
-                    <td>R$2.456,78</td>
-                  </tr>
-                  <tr>
-                    <td>Outcome</td>
-                    <td>R$1.000,78</td>
-                  </tr>
-                  <tr>
-                    <td>Result</td>
-                    <td>R$1.456,00</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </div>
-            <div className="col-6">
-              <PieChartDemo />
-            </div>
-          </div>
-        </Card>
-      </Panel>
-
-      <Panel
-        toggleable
-        collapsed={true}
-        header="Coming Soon"
-        className="my-4 bg-transparent"
-      >
-        <Card>Coming Soon</Card>
-      </Panel>
-
-      <Dialog
-        visible={productDialog}
-        breakpoints={{ '960px': '75vw', '640px': '100vw' }}
-        style={{ width: '40vw' }}
-        header="Product Details"
-        modal
-        className="p-fluid"
-        footer={productDialogFooter}
-        onHide={hideDialog}
-      >
-        <div className="field">
-          <label htmlFor="name">Name</label>
-          <InputText
-            id="name"
-            value={product.name}
-            onChange={(e) => onInputChange(e, 'name')}
-            required
-            autoFocus
-            className={classNames({ 'p-invalid': submitted && !product.name })}
-          />
-          {submitted && !product.name && (
-            <small className="p-error">Name is required.</small>
-          )}
-        </div>
-        <div className="formgrid grid">
-          <div className="field col">
-            <label htmlFor="balance">Balance</label>
-            <InputNumber
-              id="balance"
-              value={product.balance}
-              onValueChange={(e) => onInputNumberChange(e, 'balance')}
-              mode="currency"
-              currency="USD"
-              locale="en-US"
-            />
-          </div>
-        </div>
-      </Dialog>
+      <DialogAdd
+        productDialog={productDialog}
+        hideDialog={hideDialog}
+        saveProduct={saveProduct}
+        onInputChange={onInputChange}
+        onInputNumberChange={onInputNumberChange}
+        submitted={submitted}
+        product={product}
+      />
 
       <DialogEntry
-        deleteProductDialog={deleteProductDialog}
-        hideDeleteProductDialog={hideDeleteProductDialog}
+        deleteEntryDialog={deleteEntryDialog}
+        hideDeleteEntryDialog={hideDeleteEntryDialog}
         deleteProduct={deleteProduct}
         product={product}
       />
-
-      <DialogEntries
-        deleteProductsDialog={deleteProductsDialog}
-        hideDeleteProductsDialog={hideDeleteProductsDialog}
-        deleteSelectedProducts={deleteSelectedProducts}
-        product={product}
-      />
-    </BankMainWrapper>
+    </EntryIncomeWrapper>
   )
 }

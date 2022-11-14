@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const breadcrumbHeight = '51px'
+const breadcrumbHeight = '110px'
 
 export const PageContentWrapper = styled.div`
   height: calc(100vh - ${breadcrumbHeight});
